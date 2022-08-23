@@ -22,7 +22,7 @@ async function canapDisplay() {
     // Utilisation de la méthode "MAP" pour aller chercher tous les objects
     document.getElementById("items").innerHTML = canapeData.map((canapeData) =>
         `
-        <a href = ${canapeData._id}>
+        <a href = ./product.html?${canapeData._id}>
         <article>
         <img src=${canapeData.imageUrl} alt=${canapeData.altTxt}>
             <h3 class="productName">${canapeData.name}</h3>

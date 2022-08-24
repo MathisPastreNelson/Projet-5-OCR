@@ -11,11 +11,11 @@ async function fetchCanap() {
             console.table(canapeData);
         })
         // Si problème
-        .catch(error => console.log("Erreur de la base de donnée"))
+        .catch(error => console.log("Erreur de la base de donnée. Le serveur back n'est pas lancé."))
 };
 
 
-// Fonction pour mettre les cards dans la DIV html
+// Fonction pour mettre les cards dans la balise html
 async function canapDisplay() {
     await fetchCanap();
     // Injection du HTML

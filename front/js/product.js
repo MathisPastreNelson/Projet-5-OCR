@@ -14,7 +14,6 @@ let productFetch = async () => {
     console.table(canapeData)
 };
 
-
 //Fonction qui réparti les données sur les différents éléments HTML
 let productDisplay = async () => {
     await productFetch()
@@ -38,17 +37,13 @@ let productDisplay = async () => {
         `
         ${canapeData.description}
         `
-
-    /*J'en suis là*/
-    //couleur il faut que je récupère l'enssemble des couleurs
-    canapeData.colors.forEach(function (color) {
-        let option = document.createElement("option_Value")
-        option.textContent =
-            `
-  ${canapeData.colors}
-        `
-        console.table(canapeData.colors)
+    //couleur
+    let colors = document.getElementById('colors');
+    //Fonction forEach pour afficher l'enssemble des couleurs
+    canapeData.colors.forEach(function (element, key) {
+        colors[key] = new Option(element, key);
     });
+    /*J'en suis là comprendre le localStorage*/
 };
 
 productDisplay();

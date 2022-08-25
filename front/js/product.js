@@ -1,7 +1,7 @@
 //On récup l'URL de la page courante
 let str = window.location.href;
 let url = new URL(str);
-//On récup l'id dans l'URL
+//On récupère uniquement l'id du produit dans l'URL
 let idProduct = url.searchParams.get("id");
 
 //Fonction fectch dédiée au canapé de la page
@@ -38,12 +38,17 @@ let productDisplay = async () => {
         `
         ${canapeData.description}
         `
+
+    /*J'en suis là*/
     //couleur il faut que je récupère l'enssemble des couleurs
-    /*   document.querySelector("option").innerHTML =
-           `
-           ${canapeData.colors}
-           `
-           */
+    canapeData.colors.forEach(function (color) {
+        let option = document.createElement("option_Value")
+        option.textContent =
+            `
+  ${canapeData.colors}
+        `
+        console.table(canapeData.colors)
+    });
 };
 
 productDisplay();

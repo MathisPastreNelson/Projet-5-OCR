@@ -1,37 +1,33 @@
+//Variable qui récupère les données de l'API
 let canapeData = [];
 
-//Fonction Récupération des datas du back grâce a la méthode "FETCH"
-async function fetchCanap() {
+//Fonction de Récupération de l'API grâce a la méthode "FETCH"
+let fetchCanap = async () => {
     await fetch("http://localhost:3000/api/products")
         // quand tu as la réponse donne le résultat en json
-        .then((response) => response.json())
-        // log du résultat dans la console et ajout de la fonction dans canapeData[]
-        .then((promise) => {
-            canapeData = promise
-            console.table(canapeData);
-        })
-        // Si problème
-        .catch(error => console.log("Erreur de la base de donnée. Le serveur back n'est pas lancé."))
+        .then((res) => res.json())
+        // Ajout de la fonction dans canapeData[]
+        .then((res) => canapeData = res)
 };
 
-
-// Fonction pour mettre les cards dans la balise html
-async function canapDisplay() {
+//Fonction d'affichage des canapés
+let canapDisplay = async () => {
     await fetchCanap();
-    // Injection du HTML
     // Utilisation de la méthode "MAP" pour aller chercher tous les objects
     document.getElementById("items").innerHTML = canapeData.map((canapeData) =>
         `
-        <a href = ./product.html?${canapeData._id}>
+        <a href = ./product.html?id=${canapeData._id}>
         <article>
         <img src=${canapeData.imageUrl} alt=${canapeData.altTxt}>
-            <h3 class="productName">${canapeData.name}</h3>
-            <p class="productDescription">${canapeData.description}</p>
+        <h3 class="productName">${canapeData.name}</h3>
+    <p class="productDescription">${canapeData.description}</p>
     </article>
     </a >
     `
-    )
-}
+    ).join("") //retire les ',' entre les cards
+    console.log(canapeData)
+};
 
-fetchCanap()
-canapDisplay()
+canapDisplay();
+
+

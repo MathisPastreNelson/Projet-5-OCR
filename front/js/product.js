@@ -1,26 +1,49 @@
-/*
-let canapeData = [];
+//On récup l'URL de la page courante
+let str = window.location.href;
+let url = new URL(str);
+//On récup l'id dans l'URL
+let idProduct = url.searchParams.get("id");
 
-//Fonction Récupération des datas du back grâce a la méthode "FETCH"
-async function fetchCanap() {
-    await fetch("http://localhost:3000/api/products")
+//Fonction fectch dédiée au canapé de la page
+let productFetch = async () => {
+    await fetch("http://localhost:3000/api/products/" + idProduct)
         // quand tu as la réponse donne le résultat en json
-        .then((response) => response.json())
-        // log du résultat dans la console et ajout des datas dans canapeData[]
-        .then((promise) => {
-            canapeData = promise
-            console.table(canapeData);
-        })
-        // Si problème
-        .catch(error => console.log("Erreur de la base de donnée. Le serveur back n'est pas lancé."))
+        .then((res) => res.json())
+        // Ajout de la fonction dans canapeData[]
+        .then((res) => canapeData = res)
+    console.table(canapeData)
 };
 
-fetchCanap();
-*/
 
-//Récupération du search de l'url
-let displayIdData = window.location.search;
-//J'enleve de ? de l'url pour récupéré uniquement l'ID produit
-displayIdData = displayIdData.slice(1);
-console.log(displayIdData)
+//Fonction qui réparti les données sur les différents éléments HTML
+let productDisplay = async () => {
+    await productFetch()
+    //image
+    document.querySelector(".item__img").innerHTML =
+        ` 
+            <img src = ${canapeData.imageUrl} alt = ${canapeData.altTxt}>
+            `
+    //prix
+    document.getElementById("price").innerHTML =
+        ` 
+            ${canapeData.price}
+            `
+    //titre
+    document.getElementById("title").innerHTML =
+        `
+        ${canapeData.name}
+        `
+    //description
+    document.getElementById("description").innerHTML =
+        `
+        ${canapeData.description}
+        `
+    //couleur il faut que je récupère l'enssemble des couleurs
+    /*   document.querySelector("option").innerHTML =
+           `
+           ${canapeData.colors}
+           `
+           */
+};
 
+productDisplay();

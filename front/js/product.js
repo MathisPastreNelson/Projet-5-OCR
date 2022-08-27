@@ -11,7 +11,7 @@ let productFetch = async () => {
         .then((res) => res.json())
         // Ajout de la fonction dans canapeData[]
         .then((res) => canapeData = res)
-    console.table(canapeData)
+    // console.table(canapeData)
 };
 
 //Fonction qui réparti les données sur les différents éléments HTML
@@ -38,12 +38,26 @@ let productDisplay = async () => {
         ${canapeData.description}
         `
     //couleur
-    let colors = document.getElementById('colors');
-    //Fonction forEach pour afficher l'enssemble des couleurs
-    canapeData.colors.forEach(function (element, key) {
-        colors[key] = new Option(element, key);
+    let select = document.getElementById('colors');
+    //Fonction forEach pour afficher l'enssemble des colors
+    canapeData.colors.forEach((color) => {
+        //Ajout d'une nouvelle option pour chaques colors
+        let colorOption = document.createElement("option")
+        colorOption.innerHTML = `${color}`
+        colorOption.value = `${color}`
+        select.appendChild(colorOption);
     });
     /*J'en suis là comprendre le localStorage*/
+
+    let getProductInBasket =
+        productPrice = canapeData.price
+    productTitle = canapeData.name
+    productColor = canapeData.colors
+
+    console.log(getProductInBasket)
 };
 
+
+
 productDisplay();
+

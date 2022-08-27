@@ -4,7 +4,7 @@ let canapeData = [];
 //Fonction de Récupération de l'API grâce a la méthode "FETCH"
 let fetchCanap = async () => {
     await fetch("http://localhost:3000/api/products")
-        // quand tu as la réponse donne le résultat en json
+        // La réponse convertie en .Json
         .then((res) => res.json())
         // Ajout de la fonction dans canapeData[]
         .then((res) => canapeData = res)
@@ -13,7 +13,7 @@ let fetchCanap = async () => {
 //Fonction d'affichage des canapés
 let canapDisplay = async () => {
     await fetchCanap();
-    // Utilisation de la méthode "MAP" pour aller chercher tous les objects
+    // Utilisation de la méthode "MAP" pour aller chercher tous les objects et les placer dans l'ID
     document.getElementById("items").innerHTML = canapeData.map((canapeData) =>
         `
         <a href = ./product.html?id=${canapeData._id}>

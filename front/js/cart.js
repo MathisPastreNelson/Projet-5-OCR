@@ -16,7 +16,6 @@ let retrieveProductFromStorage = async () => {
 //Tentative d'Afficher les articles du localStorage à la page
 let displayProduct = async () => {
     await retrieveProductFromStorage()
-    console.table(productCard)
     document.getElementById("cart__items").innerHTML = productCard.map((productCard) => {
         `
         <article class="cart__item" data - id="{productObject.id}" data - color="{product-color}">
@@ -31,7 +30,7 @@ let displayProduct = async () => {
         </div>
         <div class="cart__item__content__settings">
         <div class="cart__item__content__settings__quantity">
-        <p>Qté : </p>
+        <p>Qté :${productCard.quantity} </p>
         <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
         </div>
         <div class="cart__item__content__settings__delete">
@@ -41,6 +40,7 @@ let displayProduct = async () => {
         </div>
         </article>
         `
+        console.log(productCard.color)
     })
 }
 

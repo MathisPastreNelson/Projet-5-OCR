@@ -11,7 +11,7 @@ let productFetch = async () => {
         .then((res) => res.json())
         // Ajout de la fonction dans canapeData[]
         .then((res) => canapeData = res)
-    // console.table(canapeData)
+    console.table(canapeData)
 };
 
 //Fonction qui réparti les données sur les différents éléments HTML
@@ -20,13 +20,13 @@ let productDisplay = async () => {
     //image
     document.querySelector(".item__img").innerHTML =
         ` 
-            <img src = ${canapeData.imageUrl} alt = ${canapeData.altTxt}>
-            `
+        <img src = ${canapeData.imageUrl} alt = ${canapeData.altTxt}>
+        `
     //prix
     document.getElementById("price").innerHTML =
         ` 
-            ${canapeData.price}
-            `
+        ${canapeData.price}
+        `
     //titre
     document.getElementById("title").innerHTML =
         `

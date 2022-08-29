@@ -47,15 +47,6 @@ let productDisplay = async () => {
         colorOption.value = `${color}`
         select.appendChild(colorOption);
     });
-    /*J'en suis là comprendre le localStorage*/
-
-    /* let getProductInBasket =
-         productPrice = canapeData.price
-     productTitle = canapeData.name
-     productColor = canapeData.colors
- 
-     console.log(getProductInBasket)*/
-
 };
 
 //Concernant le boutton "Ajouter au panier"
@@ -67,20 +58,20 @@ if (button != null) {
         const quantitySelect = document.querySelector("#quantity").value
         //Condition contraignant l'utilisateur à mettre une couleur et une quantité de produit entre 1 et 100
         if (colorProductSelect == null || colorProductSelect == "" ||
-            quantitySelect == 0 || quantitySelect > 100 || quantitySelect == null) {
+            quantitySelect <= 0 || quantitySelect > 100 || quantitySelect == null) {
             alert("Selectionnez une couleur et un nombre d'article entre 1 et 100")
+        } else {
+            //Création d'un objet regroupant les informations du produit à transmettre en localstorage
+            let productInBasket = {
+                id: idProduct,
+                color: colorProductSelect,
+                quantity: Number(quantitySelect),
+            }
+            //L'objet est ajouté au localStorage avec son nom+couleur en guise de clé
+            localStorage.setItem(canapeData.name + " " + colorProductSelect, JSON.stringify(productInBasket))
+            alert("Votre produit a été ajouté au panier.")
         }
-        //Création d'un objet regroupant les informations du produit à transmettre en au panier
-        let productInBasket = {
-            id: idProduct,
-            name: canapeData.name,
-            imageUrl: canapeData.imageUrl,
-            imageTxt: canapeData.altTxt,
-            color: colorProductSelect,
-            quantity: quantitySelect,
-        }
-        //L'objet est ajouté au localStorage
-        localStorage.setItem(idProduct, JSON.stringify(productInBasket))
+        //Récupérer le prix avec une autre fonction que le localStorage car danger de sécurité peut être un fetchproduct 
     })
 }
 

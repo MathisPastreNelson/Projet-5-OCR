@@ -16,16 +16,16 @@ let canapDisplay = async () => {
     // Utilisation de la méthode "MAP" pour aller chercher tous les objects et les placer dans l'ID
     document.getElementById("items").innerHTML = canapeData.map((canapeData) =>
         `
-        <a href = ./product.html?id=${canapeData._id}>
-        <article>
-        <img src=${canapeData.imageUrl} alt=${canapeData.altTxt}>
-        <h3 class="productName">${canapeData.name}</h3>
+    <a href = ./product.html?id=${canapeData._id}>
+    <article>
+    <img src=${canapeData.imageUrl} alt=${canapeData.altTxt}>
+    <h3 class="productName">${canapeData.name}</h3>
     <p class="productDescription">${canapeData.description}</p>
     </article>
     </a >
     `
     ).join("") //retire les ',' entre les cards
-    console.log(canapeData)
+    console.table(canapeData)
 };
 
 canapDisplay();

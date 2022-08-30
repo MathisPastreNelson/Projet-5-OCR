@@ -25,7 +25,7 @@ let canapDisplay = async () => {
     </a >
     `
     ).join("") //retire les ',' entre les cards
-    console.table(canapeData)
+    console.log(canapeData)
 };
 
 canapDisplay();

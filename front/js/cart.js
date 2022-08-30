@@ -9,15 +9,20 @@ let retrieveProductFromStorage = async () => {
         productObject = JSON.parse(item)
         //On injecte le résultat dans un array productCard
         productCard.push(productObject)
+        console.log(productObject)
     }
 }
 
 
+
+
 //Tentative d'Afficher les articles du localStorage à la page
 let displayProduct = async () => {
-    await retrieveProductFromStorage()
-    document.getElementById("cart__items").innerHTML = productCard.map((productCard) => {
-        `
+    await retrieveProductFromStorage();
+    console.log(productCard)
+    productCard.forEach(object => {
+        document.getElementById("cart__items").innerHTML =
+            `
         <article class="cart__item" data - id="{productObject.id}" data - color="{product-color}">
         <div class="cart__item__img">
         <img src="../images/product01.jpg" alt="Photographie d'un canapé">
@@ -30,7 +35,7 @@ let displayProduct = async () => {
         </div>
         <div class="cart__item__content__settings">
         <div class="cart__item__content__settings__quantity">
-        <p>Qté :${productCard.quantity} </p>
+        <p>Qté :test </p>
         <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
         </div>
         <div class="cart__item__content__settings__delete">
@@ -40,7 +45,6 @@ let displayProduct = async () => {
         </div>
         </article>
         `
-        console.log(productCard.color)
     })
 }
 

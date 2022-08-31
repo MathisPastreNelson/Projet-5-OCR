@@ -65,15 +65,26 @@ button.addEventListener("click", (e) => {
     if (colorProductSelect == null || colorProductSelect == "" ||
         quantitySelect <= 0 || quantitySelect > 100 || quantitySelect == null) {
         alert("Selectionnez une couleur et un nombre d'article entre 1 et 100")
-    } else {
-        //L'objet est ajouté au localStorage avec son nom+couleur en guise de clé
+    } //On vérifie si l'objet n'est pas déja présent  afin d'incrémenter uniquement la quantité de produit
+    else if (localStorage.getItem(canapeData.name + " " + colorProductSelect)) {
+        //Je récupère l'ancienne valeur
+        let productAlreadyIn = JSON.parse(localStorage.getItem(canapeData.name + " " + colorProductSelect))
+        //J'additionne l'ancienne et la nouvelle quantité
+        productAlreadyIn.quantity += parseInt(quantitySelect)
+        //Je renvoi le produit avec sa nouvelle valeur 
+        localStorage.setItem(canapeData.name + " " + colorProductSelect, JSON.stringify(productAlreadyIn))
+        console.log(productAlreadyIn)
+        alert("Votre quantité de produit a été rajouter au panier.")
+
+    }  //L'objet est ajouté au localStorage avec son nom+couleur en guise de clé
+    else {
         localStorage.setItem(canapeData.name + " " + colorProductSelect, JSON.stringify(productInBasket))
-        alert("Votre produit a été ajouté au panier.")
         console.log(productInBasket)
+        alert("Votre produit a été ajouté au panier.")
     }
-    //Récupérer le prix avec une autre fonction que le localStorage car danger de sécurité peut être un fetchproduct 
 })
+
+//Récupérer le prix avec une autre fonction que le localStorage car danger de sécurité peut être un fetchproduct 
 
 
 productDisplay();
-

@@ -1,4 +1,13 @@
-//Je récupère les objets du localStorage
-let test = JSON.parse(key);
+let getProduct = [];
 
-console.log(test)
+function RetrieveAllStorage() {
+    let keys = Object.keys(localStorage);
+    let i = keys.length;
+    while (i--) {
+        let test = JSON.parse(localStorage.getItem(keys[i]))
+        getProduct.push(localStorage.getItem(keys[i]));
+    }
+}
+
+RetrieveAllStorage()
+console.table(getProduct)

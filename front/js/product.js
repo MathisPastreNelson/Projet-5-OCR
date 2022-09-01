@@ -1,6 +1,6 @@
 //On récup l'URL de la page courante
-let str = window.location.href;
-let url = new URL(str);
+let completeUrl = window.location.href;
+let url = new URL(completeUrl);
 //On récupère uniquement l'id du produit dans l'URL
 let idProduct = url.searchParams.get("id");
 
@@ -9,12 +9,12 @@ let productFetch = async () => {
     await fetch("http://localhost:3000/api/products/" + idProduct)
         // quand tu as la réponse donne le résultat en json
         .then((res) => res.json())
-        // Ajout de la fonction dans canapeData[]
+        // Ajout du résultat dans canapeData[]
         .then((res) => canapeData = res)
-    console.table(canapeData)
+    //   console.table(canapeData)
 };
 
-//Fonction qui réparti les données sur les différents éléments HTML
+//Fonction qui affiche les données sur les différents éléments HTML
 let productDisplay = async () => {
     await productFetch()
     //image
@@ -38,21 +38,21 @@ let productDisplay = async () => {
     ${canapeData.description}
     `
     //couleur
-    let select = document.getElementById('colors');
-    //Fonction forEach pour afficher l'enssemble des colors
+    let selectColor = document.getElementById('colors');
+    //Fonction forEach pour afficher l'ensemble des colors
     canapeData.colors.forEach((color) => {
         //Ajout d'une nouvelle option pour chaques colors
         let colorOption = document.createElement("option")
         colorOption.innerHTML = `${color}`
         colorOption.value = `${color}`
-        select.appendChild(colorOption);
+        selectColor.appendChild(colorOption);
     });
 };
 
 //Concernant le boutton "Ajouter au panier"
-const button = document.querySelector("button")
+const buttonAddBasket = document.querySelector("button")
 //Création d'event qui s'applique au clique de l'ajout au panier
-button.addEventListener("click", (e) => {
+buttonAddBasket.addEventListener("click", (e) => {
     const colorProductSelect = document.querySelector("#colors").value
     const quantitySelect = document.querySelector("#quantity").value
     //Création d'un objet regroupant les informations du produit à transmettre en localstorage
@@ -64,19 +64,20 @@ button.addEventListener("click", (e) => {
     //Condition contraignant l'utilisateur à mettre une couleur + une quantité de produit entre 1 et 100
     if (colorProductSelect == null || colorProductSelect == "" ||
         quantitySelect <= 0 || quantitySelect > 100 || quantitySelect == null) {
-        alert("Selectionnez une couleur et un nombre d'article entre 1 et 100")
-    } //On vérifie si l'objet n'est pas déja présent  afin d'incrémenter uniquement la quantité de produit
+        alert("Sélectionnez une couleur et un nombre d'article entre 1 et 100")
+    }
+    //On vérifie si l'objet n'est pas déja présent  afin d'incrémenter uniquement la quantité de produit
     else if (localStorage.getItem(canapeData.name + " " + colorProductSelect)) {
-        //Je récupère l'ancienne valeur
+        //Je récupère l'objet du localStorage
         let productAlreadyIn = JSON.parse(localStorage.getItem(canapeData.name + " " + colorProductSelect))
         //J'additionne l'ancienne et la nouvelle quantité
         productAlreadyIn.quantity += parseInt(quantitySelect)
-        //Je renvoi le produit avec sa nouvelle valeur 
+        //Je renvoi le produit avec sa nouvelle valeur (quantité)
         localStorage.setItem(canapeData.name + " " + colorProductSelect, JSON.stringify(productAlreadyIn))
         console.log(productAlreadyIn)
         alert("Votre quantité de produit a été rajouter au panier.")
-
-    }  //L'objet est ajouté au localStorage avec son nom+couleur en guise de clé
+    }
+    //Si le produit n'existe pas déja dans le localStorage on l'ajoute simplement
     else {
         localStorage.setItem(canapeData.name + " " + colorProductSelect, JSON.stringify(productInBasket))
         console.log(productInBasket)

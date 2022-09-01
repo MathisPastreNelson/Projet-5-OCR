@@ -8,12 +8,13 @@ let fetchCanap = async () => {
         .then((res) => res.json())
         // Ajout de la fonction dans canapeData[]
         .then((res) => canapeData = res)
+    console.table(canapeData)
 };
 
 //Fonction d'affichage des canapés
 let canapDisplay = async () => {
     await fetchCanap();
-    // Utilisation de la méthode "MAP" pour aller chercher tous les objects et les placer dans l'ID
+    // Utilisation de la méthode "MAP" pour chercher tout les objects et les placer dans l'ID
     document.getElementById("items").innerHTML = canapeData.map((canapeData) =>
         `
     <a href = ./product.html?id=${canapeData._id}>
@@ -25,7 +26,6 @@ let canapDisplay = async () => {
     </a >
     `
     ).join("") //retire les ',' entre les cards
-    console.table(canapeData)
 };
 
 canapDisplay();

@@ -63,41 +63,33 @@ let displayProduct = async () => {
     `).join("") //retire les ',' entre les cards
 };
 
-//JEN SUIS LA
-//Fonction pour additionner ou soustraire les products et leurs prix en modifiant la quantité
-let plusQuantity = async () => {
+
+//fonction de calcul et d'affichage des quantités + prix
+let calculQuantityAndPrice = async () => {
     await displayProduct()
-    let quantityInput = document.querySelector('.itemQuantity');
-    console.log(quantityInput)
-    quantityInput.addEventListener("change", function (event) {
-        console.log(quantityInput.value)
-
+    // on cible la class "itemQuantity"
+    let quantityInInput = document.getElementsByClassName('itemQuantity')
+    // variable accueillant la quantité de produit total
+    let totalQuantity = 0;
+    // boucle for pour obtenir la quantité total de produit et l'appliquer dans la variable
+    for (let i = 0; i < quantityInInput.length; i++) {
+        totalQuantity += quantityInInput[i].valueAsNumber
     }
-    )
+    // affichage de la quantité de produit total
+    let quantityInHtml = document.getElementById('totalQuantity')
+    quantityInHtml.innerHTML = totalQuantity
+    // boucle for pour le calcul du prix total de tous les produits
+    let totalPrice = 0;
+    for (let i = 0; i < quantityInInput.length; i++) {
+        totalPrice += (quantityInInput[i].valueAsNumber * everyProductInfo[i].price)
+    }
+    // affichage du prix total de tous les produits
+    let totalPriceInHtml = document.getElementById('totalPrice')
+    totalPriceInHtml.innerHTML = totalPrice
+    // console.log(totalPrice)
+    // console.log(totalQuantity)
+};
 
-}
 
 
-plusQuantity()
-
-    // < !--  < article class="cart__item" data - id="{product-ID}" data - color="{product-color}" >
-    //             <div class="cart__item__img">
-    //               <img src="../images/product01.jpg" alt="Photographie d'un canapé">
-    //             </div>
-    //             <div class="cart__item__content">
-    //               <div class="cart__item__content__description">
-    //                 <h2>Nom du produit</h2>
-    //                 <p>Vert</p>
-    //                 <p>42,00 €</p>
-    //               </div>
-    //               <div class="cart__item__content__settings">
-    //                 <div class="cart__item__content__settings__quantity">
-    //                   <p>Qté : </p>
-    //                   <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
-    //                 </div>
-    //                 <div class="cart__item__content__settings__delete">
-    //                   <p class="deleteItem">Supprimer</p>
-    //                 </div>
-    //               </div>
-    //             </div>
-    //           </ > -->
+calculQuantityAndPrice()

@@ -47,7 +47,7 @@ let displayProduct = async () => {
     <div class="cart__item__content__description">
     <h2>${everyProductInfo.name}</h2>
     <p>${everyProductInfo.color}</p>
-    <p>${everyProductInfo.price} €</p>
+    <p>${everyProductInfo.price * everyProductInfo.quantity} €</p>
     </div>
     <div class="cart__item__content__settings">
     <div class="cart__item__content__settings__quantity">
@@ -60,36 +60,47 @@ let displayProduct = async () => {
     </div>
     </div>
     </article>
-    `).join("") //retire les ',' entre les cards
+    `).join("") //retire les ',' entre les car
 };
 
 
-//fonction de calcul et d'affichage des quantités + prix
+// on cible la class "itemQuantity"
+// fonction de calcul et d'affichage des quantités + prix
 let calculQuantityAndPrice = async () => {
     await displayProduct()
-    // on cible la class "itemQuantity"
-    let quantityInInput = document.getElementsByClassName('itemQuantity')
-    // variable accueillant la quantité de produit total
+    let quantityInput = document.getElementsByClassName('itemQuantity')
+    // variable accueillant la quantité total de produit 
     let totalQuantity = 0;
     // boucle for pour obtenir la quantité total de produit et l'appliquer dans la variable
-    for (let i = 0; i < quantityInInput.length; i++) {
-        totalQuantity += quantityInInput[i].valueAsNumber
+    for (let i = 0; i < quantityInput.length; i++) {
+        totalQuantity += quantityInput[i].valueAsNumber
     }
     // affichage de la quantité de produit total
     let quantityInHtml = document.getElementById('totalQuantity')
     quantityInHtml.innerHTML = totalQuantity
     // boucle for pour le calcul du prix total de tous les produits
     let totalPrice = 0;
-    for (let i = 0; i < quantityInInput.length; i++) {
-        totalPrice += (quantityInInput[i].valueAsNumber * everyProductInfo[i].price)
+    for (let i = 0; i < quantityInput.length; i++) {
+        totalPrice += (quantityInput[i].valueAsNumber * everyProductInfo[i].price)
     }
     // affichage du prix total de tous les produits
     let totalPriceInHtml = document.getElementById('totalPrice')
     totalPriceInHtml.innerHTML = totalPrice
     // console.log(totalPrice)
-    // console.log(totalQuantity)
+
 };
 
 
+// fonction pour changer les valeurs(quantité et prix) dynamiquement
+let changeQuantityandPrice = async () => {
+    await calculQuantityAndPrice()
+    const listOfInput = document.getElementsByClassName('itemQuantity')
+    for (let i = 0; i < listOfInput.length; i++) {
+        listOfInput[i].addEventListener('click', function () {
+            console.log(listOfInput[i].valueAsNumber);
 
-calculQuantityAndPrice()
+        });
+    }
+}
+
+changeQuantityandPrice()

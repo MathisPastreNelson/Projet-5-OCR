@@ -1,7 +1,7 @@
-//Variable qui récupère les données de l'API
+// Variable qui récupère les données de l'API
 let canapeData = [];
 
-//Fonction de Récupération de l'API grâce a la méthode "FETCH"
+// Fonction de Récupération de l'API grâce a la méthode "FETCH"
 let fetchCanap = async () => {
     await fetch("http://localhost:3000/api/products")
         // La réponse convertie en .Json
@@ -11,7 +11,7 @@ let fetchCanap = async () => {
     console.table(canapeData)
 };
 
-//Fonction d'affichage des canapés
+// Fonction d'affichage des canapés
 let canapDisplay = async () => {
     await fetchCanap();
     // Utilisation de la méthode "MAP" pour chercher tout les objects et les placer dans l'ID
@@ -25,7 +25,7 @@ let canapDisplay = async () => {
     </article>
     </a >
     `
-    ).join("") //retire les ',' entre les cards
+    ).join("") // Retire les ',' entre les cards
 };
 
 canapDisplay();

@@ -59,11 +59,11 @@ buttonAddBasket.addEventListener("click", (e) => {
     let productInBasket = {
         id: idProduct,
         color: colorProductSelect,
-        quantity: Number(quantitySelect),
+        quantity: parseInt(quantitySelect),
     }
     //Condition contraignant l'utilisateur à mettre une couleur + une quantité de produit entre 1 et 100
     if (colorProductSelect == null || colorProductSelect == "" ||
-        quantitySelect <= 0 || quantitySelect > 100 || quantitySelect == null) {
+        quantitySelect < 1 || quantitySelect > 100 || quantitySelect == null) {
         alert("Sélectionnez une couleur et un nombre d'article entre 1 et 100")
     }
     //On vérifie si l'objet n'est pas déja présent  afin d'incrémenter uniquement la quantité de produit

@@ -3,6 +3,7 @@ let getProductByFetch = [];
 let everyProductInfo = [];
 
 
+
 //Fonction qui va chercher tout les produits du localStorage
 let retrieveAllStorage = async () => {
     let keys = Object.keys(localStorage);
@@ -63,12 +64,11 @@ let displayProduct = async () => {
     `).join("") //retire les ',' entre les car
 };
 
-
-// on cible la class "itemQuantity"
+// variable utilisée dans les prochaines fonctions cible la class "itemQuantity"
+let quantityInput = document.getElementsByClassName('itemQuantity')
 // fonction de calcul et d'affichage des quantités + prix
 let calculQuantityAndPrice = async () => {
     await displayProduct()
-    let quantityInput = document.getElementsByClassName('itemQuantity')
     // variable accueillant la quantité total de produit 
     let totalQuantity = 0;
     // boucle for pour obtenir la quantité total de produit et l'appliquer dans la variable
@@ -81,12 +81,13 @@ let calculQuantityAndPrice = async () => {
     // boucle for pour le calcul du prix total de tous les produits
     let totalPrice = 0;
     for (let i = 0; i < quantityInput.length; i++) {
-        totalPrice += (quantityInput[i].valueAsNumber * everyProductInfo[i].price)
+        totalPrice += (quantityInput[i].value * everyProductInfo[i].price)
     }
     // affichage du prix total de tous les produits
     let totalPriceInHtml = document.getElementById('totalPrice')
     totalPriceInHtml.innerHTML = totalPrice
     // console.log(totalPrice)
+    // console.log(everyProductInfo)
 
 };
 
@@ -94,11 +95,22 @@ let calculQuantityAndPrice = async () => {
 // fonction pour changer les valeurs(quantité et prix) dynamiquement
 let changeQuantityandPrice = async () => {
     await calculQuantityAndPrice()
-    const listOfInput = document.getElementsByClassName('itemQuantity')
-    for (let i = 0; i < listOfInput.length; i++) {
-        listOfInput[i].addEventListener('click', function () {
-            console.log(listOfInput[i].valueAsNumber);
-
+    for (let i = 0; i < quantityInput.length; i++) {
+        // au changement de la valeur de l'input
+        quantityInput[i].addEventListener('change', function () {
+            // vérifie que c'est un nombre au dessus de 0
+            if (quantityInput[i].value < 1 || NaN) {
+                alert("Selectionnez une quantité en chiffre et au dessus de 1")
+            } else {
+                // injection dans le localStorage
+                everyProductInfo[i].quantity = parseInt(quantityInput[i].value)
+                localStorage.setItem(everyProductInfo[i].name + " " + everyProductInfo[i].color, JSON.stringify(everyProductInfo[i]))
+                location.reload();
+                // console.log(listOfInput[i].value)
+                // console.log(everyProductInfo[i])
+                //      console.log(divQuantity[i]);
+                //  console.log(everyProductInfo[i].quantity)
+            }
         });
     }
 }

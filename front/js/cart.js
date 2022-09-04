@@ -1,17 +1,26 @@
-let getProduct = [];
+// variable qui récupère les datas du localStorage
+let productInBasket = [];
+// variable qui récupère les datas par fetch de l'API
 let getProductByFetch = [];
+// variable qui regroupe les datas totaux (localStorage + API)
 let everyProductInfo = [];
 
 
 
-//Fonction qui va chercher tout les produits du localStorage
+//Fonction qui va chercher tout les produits du localStorage +  je traduis et je met dans productInBasket[]
 let retrieveAllStorage = async () => {
     let keys = Object.keys(localStorage);
-    let i = keys.length;
-    //Tant qu'il y a des clés dans le localStorage je traduis et je met dans getProduct[]
-    while (i--) {
-        let parseAllProduct = JSON.parse(localStorage.getItem(keys[i]))
-        getProduct.push(parseAllProduct)
+    //Tant qu'il y a des clés dans le localStorage
+    for (let i = 0; i < keys.length; i++) {
+        // je vérifie si le nom des clés situées dans le LocalStorage correspondent au panier
+        if (keys[i][0] === "K") {
+            let parseAllProduct = JSON.parse(localStorage.getItem(keys[i]))
+            productInBasket.push(parseAllProduct)
+            // je supprime les clés qui ne correspondent pas
+        } else {
+            console.log("erreur")
+            localStorage.removeItem(keys[i])
+        }
     }
 };
 
@@ -19,21 +28,22 @@ let retrieveAllStorage = async () => {
 let productFetch = async () => {
     await retrieveAllStorage()
     //Je contacte les produit de L'API qui sont dans le localStorage pour obtenir l'enssemble des datas
-    getProductByFetch = await Promise.all(getProduct.map(getProduct =>
-        fetch(`http://localhost:3000/api/products/${getProduct.id}`)
+    getProductByFetch = await Promise.all(productInBasket.map(productInBasket =>
+        fetch(`http://localhost:3000/api/products/${productInBasket.id}`)
             .then(res => res.json())))
 };
 
-//Fonction qui regroupe les données situées dans l'API relatif aux produits du panier
+//Fonction qui regroupe les datas situées dans l'API relatif aux produits du panier
 let getEveryProductInfo = async () => {
     await productFetch()
-    for (let i = 0; i < getProduct.length; i++) {
+
+    for (let i = 0; i < productInBasket.length; i++) {
         everyProductInfo.push({
-            ...getProduct[i],
+            ...productInBasket[i],
             ...getProductByFetch[i]
-        });
+        })
     }
-}
+};
 
 let displayProduct = async () => {
     await getEveryProductInfo()
@@ -61,11 +71,12 @@ let displayProduct = async () => {
     </div>
     </div>
     </article>
-    `).join("") //retire les ',' entre les car
+    `).join("") //retire les ',' entre les cards
 };
 
 // variable utilisée dans les prochaines fonctions cible la class "itemQuantity"
 let quantityInput = document.getElementsByClassName('itemQuantity')
+
 // fonction de calcul et d'affichage des quantités + prix
 let calculQuantityAndPrice = async () => {
     await displayProduct()
@@ -86,8 +97,7 @@ let calculQuantityAndPrice = async () => {
     // affichage du prix total de tous les produits
     let totalPriceInHtml = document.getElementById('totalPrice')
     totalPriceInHtml.innerHTML = totalPrice
-    // console.log(totalPrice)
-    // console.log(everyProductInfo)
+    console.table(productInBasket)
 
 };
 
@@ -103,16 +113,29 @@ let changeQuantityandPrice = async () => {
                 alert("Selectionnez une quantité en chiffre et au dessus de 1")
             } else {
                 // injection dans le localStorage
-                everyProductInfo[i].quantity = parseInt(quantityInput[i].value)
-                localStorage.setItem(everyProductInfo[i].name + " " + everyProductInfo[i].color, JSON.stringify(everyProductInfo[i]))
+                productInBasket[i].quantity = parseInt(quantityInput[i].value)
+                // reinjecte dans le localStorage
+                localStorage.setItem(everyProductInfo[i].name + " " + everyProductInfo[i].color, JSON.stringify(productInBasket[i]))
                 location.reload();
-                // console.log(listOfInput[i].value)
-                // console.log(everyProductInfo[i])
-                //      console.log(divQuantity[i]);
-                //  console.log(everyProductInfo[i].quantity)
             }
-        });
+        })
     }
-}
+};
 
-changeQuantityandPrice()
+// fonction pour supprimer le produit du panier
+let deleteProduct = async () => {
+    await changeQuantityandPrice()
+    // vise le button supprimer
+    let deleteProductInHtml = document.getElementsByClassName('deleteItem')
+    for (let i = 0; i < deleteProductInHtml.length; i++) {
+        deleteProductInHtml[i].addEventListener('click', function () {
+            // supprime le produit du localStorage
+            localStorage.removeItem(everyProductInfo[i].name + " " + everyProductInfo[i].color)
+            location.reload();
+            // console.log(deleteProductInHtml[i])
+        })
+    }
+};
+
+deleteProduct()
+

@@ -85,7 +85,5 @@ buttonAddBasket.addEventListener("click", (e) => {
     }
 })
 
-//Récupérer le prix avec une autre fonction que le localStorage car danger de sécurité peut être un fetchproduct 
-
 
 productDisplay();

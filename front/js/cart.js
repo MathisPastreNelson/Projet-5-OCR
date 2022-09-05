@@ -11,7 +11,7 @@ let retrieveAllStorage = async () => {
     let keys = Object.keys(localStorage);
     //Tant qu'il y a des clés dans le localStorage
     for (let i = 0; i < keys.length; i++) {
-        // je vérifie si le nom des clés situées dans le LocalStorage correspondent au panier
+        // je vérifie si le nom des clés situées dans le LocalStorage commence par un "K" majuscule
         if (keys[i][0] === "K") {
             let parseAllProduct = JSON.parse(localStorage.getItem(keys[i]))
             productInBasket.push(parseAllProduct)
@@ -26,7 +26,7 @@ let retrieveAllStorage = async () => {
 // Fonction Fetch dédiée au canapé de la page
 let productFetch = async () => {
     await retrieveAllStorage()
-    // Je contacte les produit de L'API qui sont dans le localStorage pour obtenir l'enssemble des datas
+    // Je contacte les produit de L'API qui sont dans le localStorage pour obtenir l'ensemble des datas
     getProductByFetch = await Promise.all(productInBasket.map(productInBasket =>
         fetch(`http://localhost:3000/api/products/${productInBasket.id}`)
             .then(res => res.json())))
@@ -151,10 +151,17 @@ let verifyFormular = async () => {
     // Email
     const email = document.querySelector('#email')
     const emailError = document.querySelector('#emailErrorMsg')
+    // Regex 
+    const regexForName = /^[a-zA-ZÀ-ú\-\s]+$/;
+    const regexForAddress = /^([0-9]{1,4})?([,])?([A-Za-zÀ-ú' ]{2,40})$/;
+    const regexForEmail = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
+
+    console.log(regexForName)
+    console.log(firstNameError)
+
 }
 
 verifyFormular()
-
 
 
 
@@ -164,7 +171,7 @@ verifyFormular()
 //Je vais poster les données utilisateur dans l'API à la validation du formulaire
 
 
-//ca sera comme ca
+//Voici le modèle du POST
 /**
  *
  * Expects request to contain:

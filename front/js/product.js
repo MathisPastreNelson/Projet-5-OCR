@@ -4,7 +4,7 @@ let url = new URL(completeUrl);
 // On récupère uniquement l'id du produit dans l'URL
 let idProduct = url.searchParams.get("id");
 
-// Fonction fectch dédiée au canapé de la page
+// Fonction Fetch dédiée au canapé de la page
 let productFetch = async () => {
     await fetch("http://localhost:3000/api/products/" + idProduct)
         // Quand tu as la réponse donne le résultat en json
@@ -48,13 +48,13 @@ let productDisplay = async () => {
     })
 };
 
-// Concernant le boutton "Ajouter au panier"
+// Concernant le bouton "Ajouter au panier"
 const buttonAddBasket = document.querySelector("button")
 // Création d'event qui s'applique au clique de l'ajout au panier
 buttonAddBasket.addEventListener("click", (e) => {
     const colorProductSelect = document.querySelector("#colors").value
     const quantitySelect = document.querySelector("#quantity").value
-    // Création d'un objet regroupant les informations du produit à transmettre en localstorage
+    // Création d'un objet regroupant les informations du produit à transmettre en LocalStorage
     let productInBasket = {
         id: idProduct,
         color: colorProductSelect,
@@ -76,7 +76,7 @@ buttonAddBasket.addEventListener("click", (e) => {
         console.log(productAlreadyIn)
         alert("Votre quantité de produit a été rajouter au panier.")
     }
-    // Si le produit n'existe pas déja dans le localStorage on l'ajoute simplement
+    // Si le produit n'existe pas déjà dans le localStorage on l'ajoute simplement
     else {
         localStorage.setItem(canapeData.name + " " + colorProductSelect, JSON.stringify(productInBasket))
         console.log(productInBasket)

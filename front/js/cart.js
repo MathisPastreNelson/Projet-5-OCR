@@ -2,7 +2,7 @@
 let productInBasket = [];
 // Variable qui récupère les datas par fetch de l'API
 let getProductByFetch = [];
-// Variable qui regroupe l'enssemble des datas (localStorage + API)
+// Variable qui regroupe l'ensemble des datas (localStorage + API)
 let everyProductInfo = [];
 
 
@@ -23,7 +23,7 @@ let retrieveAllStorage = async () => {
     }
 };
 
-// Fonction fectch dédiée au canapé de la page
+// Fonction Fetch dédiée au canapé de la page
 let productFetch = async () => {
     await retrieveAllStorage()
     // Je contacte les produit de L'API qui sont dans le localStorage pour obtenir l'enssemble des datas
@@ -100,18 +100,18 @@ let calculQuantityAndPrice = async () => {
 
 
 // Fonction pour changer les valeurs(quantité et prix) dynamiquement
-let changeQuantityandPrice = async () => {
+let changeQuantityAndPrice = async () => {
     await calculQuantityAndPrice()
     for (let i = 0; i < quantityInput.length; i++) {
         // Au changement de la valeur de l'input
         quantityInput[i].addEventListener('change', function () {
             // Vérifie que c'est un nombre au dessus de 0
             if (quantityInput[i].value < 1 || NaN) {
-                alert("Selectionnez une quantité en chiffre et au dessus de 1")
+                alert("Sélectionnez une quantité en chiffre et au dessus de 1")
             } else {
-                // Reinjecte la valeur de quantity dans la variable panier
+                // Réinjecte la valeur de quantity dans la variable panier
                 productInBasket[i].quantity = parseInt(quantityInput[i].value)
-                // Reinjecte la variable panier dans le localStorage
+                // Réinjecte la variable panier dans le localStorage
                 localStorage.setItem(everyProductInfo[i].name + " " + everyProductInfo[i].color, JSON.stringify(productInBasket[i]))
                 location.reload();
             }
@@ -121,7 +121,7 @@ let changeQuantityandPrice = async () => {
 
 // Fonction pour supprimer le produit du panier
 let deleteProduct = async () => {
-    await changeQuantityandPrice()
+    await changeQuantityAndPrice()
     // Vise le button supprimer
     let deleteProductInHtml = document.getElementsByClassName('deleteItem')
     for (let i = 0; i < deleteProductInHtml.length; i++) {
@@ -137,21 +137,44 @@ let deleteProduct = async () => {
 let verifyFormular = async () => {
     await deleteProduct()
     // Prénom
-    let firstName = document.querySelector('#firstName')
-    let firstNameError = document.querySelector('#firstNameErrorMsg')
+    const firstName = document.querySelector('#firstName')
+    const firstNameError = document.querySelector('#firstNameErrorMsg')
     // Nom
-    let lastName = document.querySelector('#lastName')
-    let lastNameError = document.querySelector('#lastNameErrorMsg')
+    const lastName = document.querySelector('#lastName')
+    const lastNameError = document.querySelector('#lastNameErrorMsg')
     // Adresse
-    let address = document.querySelector('#address')
-    let addressError = document.querySelector('#addressErrorMsg')
+    const address = document.querySelector('#address')
+    const addressError = document.querySelector('#addressErrorMsg')
     // Ville
-    let city = document.querySelector('#city')
-    let cityError = document.querySelector('#cityErrorMsg')
+    const city = document.querySelector('#city')
+    const cityError = document.querySelector('#cityErrorMsg')
     // Email
-    let email = document.querySelector('#email')
-    let emailError = document.querySelector('#emailErrorMsg')
+    const email = document.querySelector('#email')
+    const emailError = document.querySelector('#emailErrorMsg')
 }
 
 verifyFormular()
 
+
+
+
+//Apprendre les regex et la méthode post ET FINI
+
+
+//Je vais poster les données utilisateur dans l'API à la validation du formulaire
+
+
+//ca sera comme ca
+/**
+ *
+ * Expects request to contain:
+ * contact: {
+ *   firstName: string,
+ *   lastName: string,
+ *   address: string,
+ *   city: string,
+ *   email: string
+ * }
+ * products: [string] <-- array of product _id
+ *
+ */

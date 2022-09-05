@@ -2,7 +2,7 @@
 let productInBasket = [];
 // Variable qui récupère les datas par fetch de l'API
 let getProductByFetch = [];
-// Variable qui regroupe les datas totaux (localStorage + API)
+// Variable qui regroupe l'enssemble des datas (localStorage + API)
 let everyProductInfo = [];
 
 
@@ -84,20 +84,18 @@ let calculQuantityAndPrice = async () => {
     let totalQuantity = 0;
     // Variable accueillant le prix total de produit
     let totalPrice = 0;
-    // Boucle for pour obtenir la quantité total de produit et l'appliquer dans la variable
+    // Boucle for pour obtenir la quantité total + prix total et l'appliquer dans les variables
     for (let i = 0; i < quantityInput.length; i++) {
         totalQuantity += quantityInput[i].valueAsNumber
-        // Boucle for pour le calcul du prix total de tous les produits
         totalPrice += (quantityInput[i].value * everyProductInfo[i].price)
     }
     // Affichage de la quantité de produit total
-    let quantityInHtml = document.getElementById('totalQuantity')
-    quantityInHtml.innerHTML = totalQuantity
+    let totalQuantityInHtml = document.getElementById('totalQuantity')
+    totalQuantityInHtml.innerHTML = totalQuantity
     // Affichage du prix total de tous les produits
     let totalPriceInHtml = document.getElementById('totalPrice')
     totalPriceInHtml.innerHTML = totalPrice
     console.table(productInBasket)
-
 };
 
 
@@ -111,9 +109,9 @@ let changeQuantityandPrice = async () => {
             if (quantityInput[i].value < 1 || NaN) {
                 alert("Selectionnez une quantité en chiffre et au dessus de 1")
             } else {
-                // Reinjecte la valeur de l'input dans la variable
+                // Reinjecte la valeur de quantity dans la variable panier
                 productInBasket[i].quantity = parseInt(quantityInput[i].value)
-                // Reinjecte la variable dans le localStorage
+                // Reinjecte la variable panier dans le localStorage
                 localStorage.setItem(everyProductInfo[i].name + " " + everyProductInfo[i].color, JSON.stringify(productInBasket[i]))
                 location.reload();
             }
@@ -136,5 +134,24 @@ let deleteProduct = async () => {
     }
 };
 
-deleteProduct()
+let verifyFormular = async () => {
+    await deleteProduct()
+    // Prénom
+    let firstName = document.querySelector('#firstName')
+    let firstNameError = document.querySelector('#firstNameErrorMsg')
+    // Nom
+    let lastName = document.querySelector('#lastName')
+    let lastNameError = document.querySelector('#lastNameErrorMsg')
+    // Adresse
+    let address = document.querySelector('#address')
+    let addressError = document.querySelector('#addressErrorMsg')
+    // Ville
+    let city = document.querySelector('#city')
+    let cityError = document.querySelector('#cityErrorMsg')
+    // Email
+    let email = document.querySelector('#email')
+    let emailError = document.querySelector('#emailErrorMsg')
+}
+
+verifyFormular()
 

@@ -95,7 +95,8 @@ let calculQuantityAndPrice = async () => {
     // Affichage du prix total de tous les produits
     let totalPriceInHtml = document.getElementById('totalPrice')
     totalPriceInHtml.innerHTML = totalPrice
-    console.table(productInBasket)
+
+    // console.table(productInBasket)
 };
 
 
@@ -152,12 +153,52 @@ let verifyFormular = async () => {
     const email = document.querySelector('#email')
     const emailError = document.querySelector('#emailErrorMsg')
     // Regex 
-    const regexForName = /^[a-zA-ZÀ-ú\-\s]+$/;
-    const regexForAddress = /^([0-9]{1,4})?([,])?([A-Za-zÀ-ú' ]{2,40})$/;
-    const regexForEmail = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
+    const regexForName = /^[a-zA-ZÀ-ú\-\s]{3,20}$/;
+    const regexForAddress = /^([a-zA-ZÀ-ÿ,-. ]{1,}|[0-9]{1,4})[ ].{1,}$/;
+    const regexForEmail = /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/;
 
-    console.log(regexForName)
-    console.log(firstNameError)
+    // console.log(regexForName)
+    // console.log(firstName.value)
+
+    firstName.addEventListener('input', function () {
+        if (firstName.value.match(regexForName)) {
+            firstNameError.innerHTML = ""
+        } else {
+            firstNameError.innerHTML = "Veuillez entrer un prénom valide"
+        }
+    })
+
+    lastName.addEventListener('input', function () {
+        if (lastName.value.match(regexForName)) {
+            lastNameError.innerHTML = ""
+        } else {
+            lastNameError.innerHTML = "Veuillez entrer un nom valide"
+        }
+    })
+
+    address.addEventListener('input', function () {
+        if (address.value.match(regexForAddress)) {
+            addressError.innerHTML = ""
+        } else {
+            addressError.innerHTML = "Veuillez entrer une adresse valide"
+        }
+    })
+
+    city.addEventListener('input', function () {
+        if (city.value.match(regexForName)) {
+            cityError.innerHTML = ""
+        } else {
+            cityError.innerHTML = "Veuillez entrer une ville valide"
+        }
+    })
+
+    email.addEventListener('input', function () {
+        if (email.value.match(regexForEmail)) {
+            emailError.innerHTML = ""
+        } else {
+            emailError.innerHTML = "Veuillez entrer une adresse e-mail valide"
+        }
+    })
 
 }
 

@@ -135,39 +135,34 @@ let deleteProduct = async () => {
     }
 };
 
+
+// La variable qui va récupérer  les données de l'utilisateur
+let contact = {};
+// La variable qui va récupérer la commande ID
+let products = [];
+// Regex 
+const regexForName = /^[a-zA-ZÀ-ú\-\s]{3,20}$/;
+const regexForAddress = /^([a-zA-ZÀ-ÿ,-. ]{1,}|[0-9]{1,4})[ ].{1,}$/;
+const regexForEmail = /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/;
+
+// Fonction de vérification du formulaire via des Regex
 let verifyFormular = async () => {
     await deleteProduct()
     // Prénom
     const firstName = document.querySelector('#firstName')
     const firstNameError = document.querySelector('#firstNameErrorMsg')
-    // Nom
-    const lastName = document.querySelector('#lastName')
-    const lastNameError = document.querySelector('#lastNameErrorMsg')
-    // Adresse
-    const address = document.querySelector('#address')
-    const addressError = document.querySelector('#addressErrorMsg')
-    // Ville
-    const city = document.querySelector('#city')
-    const cityError = document.querySelector('#cityErrorMsg')
-    // Email
-    const email = document.querySelector('#email')
-    const emailError = document.querySelector('#emailErrorMsg')
-    // Regex 
-    const regexForName = /^[a-zA-ZÀ-ú\-\s]{3,20}$/;
-    const regexForAddress = /^([a-zA-ZÀ-ÿ,-. ]{1,}|[0-9]{1,4})[ ].{1,}$/;
-    const regexForEmail = /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/;
-
-    // console.log(regexForName)
-    // console.log(firstName.value)
-
+    // On vérifie à chaque input que les entrées de l'utilisateur correspondent aux regex
     firstName.addEventListener('input', function () {
         if (firstName.value.match(regexForName)) {
+            // On applique rien dans la balise firstNameError si l'input est correct
             firstNameError.innerHTML = ""
         } else {
             firstNameError.innerHTML = "Veuillez entrer un prénom valide"
         }
     })
-
+    // Nom
+    const lastName = document.querySelector('#lastName')
+    const lastNameError = document.querySelector('#lastNameErrorMsg')
     lastName.addEventListener('input', function () {
         if (lastName.value.match(regexForName)) {
             lastNameError.innerHTML = ""
@@ -175,7 +170,9 @@ let verifyFormular = async () => {
             lastNameError.innerHTML = "Veuillez entrer un nom valide"
         }
     })
-
+    // Adresse
+    const address = document.querySelector('#address')
+    const addressError = document.querySelector('#addressErrorMsg')
     address.addEventListener('input', function () {
         if (address.value.match(regexForAddress)) {
             addressError.innerHTML = ""
@@ -183,7 +180,9 @@ let verifyFormular = async () => {
             addressError.innerHTML = "Veuillez entrer une adresse valide"
         }
     })
-
+    // Ville
+    const city = document.querySelector('#city')
+    const cityError = document.querySelector('#cityErrorMsg')
     city.addEventListener('input', function () {
         if (city.value.match(regexForName)) {
             cityError.innerHTML = ""
@@ -191,7 +190,9 @@ let verifyFormular = async () => {
             cityError.innerHTML = "Veuillez entrer une ville valide"
         }
     })
-
+    // Email
+    const email = document.querySelector('#email')
+    const emailError = document.querySelector('#emailErrorMsg')
     email.addEventListener('input', function () {
         if (email.value.match(regexForEmail)) {
             emailError.innerHTML = ""
@@ -199,18 +200,49 @@ let verifyFormular = async () => {
             emailError.innerHTML = "Veuillez entrer une adresse e-mail valide"
         }
     })
-
 }
 
-verifyFormular()
+// On vise le bouton COMMANDER
+const commandButton = document.querySelector('#order')
+//Fonction POST dans l'API si les conditions sont réunis 
+let commandAction = async () => {
+    await verifyFormular()
+    commandButton.addEventListener('click', function (e) {
+        e.preventDefault()
+        // On prend l'ID de chaque produits du panier 
+        for (let i = 0; i < everyProductInfo.length; i++) {
+            products[i] = everyProductInfo[i].id;
+        }
+        // Tout les inputs doivent correspondre aux regex et ne doivent pas être vides
+        if (firstName.value.match(regexForName)
+            && lastName.value.match(regexForName)
+            && address.value.match(regexForAddress)
+            && city.value.match(regexForName)
+            && email.value.match(regexForEmail)
+            && firstName.value.length > 0
+            && lastName.value.length > 0
+            && address.value.length > 0
+            && city.value.length > 0
+            && email.value.length > 0) {
+            // Si valide : applique les valeurs des inputs dans l'objet contact
+            contact.firstName = firstName.value
+            contact.lastName = lastName.value
+            contact.address = address.value
+            contact.city = city.value
+            contact.email = email.value
 
+            //Je vais pouvoir FETCH POST ICI je crois 
+            console.log(products)
+            console.log(contact)
+        } else {
+            alert("Une information (ou plusieurs) du formulaire est invalide.")
+        }
+    })
+}
 
-
-//Apprendre les regex et la méthode post ET FINI
-
-
+commandAction()
+//Apprendre  la méthode post ET FINI
 //Je vais poster les données utilisateur dans l'API à la validation du formulaire
-
 
 //Voici le modèle du POST
 /**
@@ -226,3 +258,4 @@ verifyFormular()
  * products: [string] <-- array of product _id
  *
  */
+

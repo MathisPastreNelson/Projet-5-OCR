@@ -17,7 +17,7 @@ let retrieveAllStorage = async () => {
             productInBasket.push(parseAllProduct)
             // je supprime les clés qui ne correspondent pas
         } else {
-            console.log("erreur")
+            console.log("Suppression de la clé non correspondante du localStorage")
             localStorage.removeItem(keys[i])
         }
     }
@@ -47,7 +47,7 @@ let getEveryProductInfo = async () => {
 // Fonction d'affichage des produits
 let displayProduct = async () => {
     await getEveryProductInfo()
-    // Utilisation de la méthode "MAP" pour  chercher tout les objects et les placer dans l'ID
+    // Utilisation de la méthode "MAP" pour  chercher tout les objects et les placer dans le HTML
     document.getElementById("cart__items").innerHTML = everyProductInfo.map((everyProductInfo) =>
         `
     <article class="cart__item" data-id="${everyProductInfo.id}" data-color="${everyProductInfo.color}">
@@ -95,7 +95,6 @@ let calculQuantityAndPrice = async () => {
     // Affichage du prix total de tous les produits
     let totalPriceInHtml = document.getElementById('totalPrice')
     totalPriceInHtml.innerHTML = totalPrice
-
     // console.table(productInBasket)
 };
 
@@ -204,7 +203,7 @@ let verifyFormular = async () => {
 
 // On vise le bouton COMMANDER
 const commandButton = document.querySelector('#order')
-//Fonction POST dans l'API si les conditions sont réunis 
+//Fonction POST dans l'api SI les conditions sont réunis 
 let commandAction = async () => {
     await verifyFormular()
     commandButton.addEventListener('click', function (e) {
@@ -212,18 +211,20 @@ let commandAction = async () => {
         // On prend l'ID de chaque produits du panier 
         for (let i = 0; i < everyProductInfo.length; i++) {
             products[i] = everyProductInfo[i].id;
-        }
-        // Tout les inputs doivent correspondre aux regex et ne doivent pas être vides
+        } // Tout les inputs doivent correspondre aux regex
         if (firstName.value.match(regexForName)
             && lastName.value.match(regexForName)
             && address.value.match(regexForAddress)
             && city.value.match(regexForName)
             && email.value.match(regexForEmail)
+            // Tout les inputs doivent être remplis 
             && firstName.value.length > 0
             && lastName.value.length > 0
             && address.value.length > 0
             && city.value.length > 0
-            && email.value.length > 0) {
+            && email.value.length > 0
+            // Il faut également qu'il y ai des produits dans le panier
+            && products.length > 0) {
             // Si valide : applique les valeurs des inputs dans l'objet contact
             contact.firstName = firstName.value
             contact.lastName = lastName.value
@@ -231,11 +232,16 @@ let commandAction = async () => {
             contact.city = city.value
             contact.email = email.value
 
+            // La variable du fetchPost
+            let sendOrder = { products, contact }
+            console.table(sendOrder)
+            console.log(sendOrder.products)
+            console.log(sendOrder.contact)
+
             //Je vais pouvoir FETCH POST ICI je crois 
-            console.log(products)
-            console.log(contact)
+
         } else {
-            alert("Une information (ou plusieurs) du formulaire est invalide.")
+            alert("Tout les champs du formulaire doivent être valides, un produit au minimum est nécessaire dans le panier.")
         }
     })
 }

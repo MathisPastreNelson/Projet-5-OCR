@@ -65,7 +65,7 @@ buttonAddBasket.addEventListener("click", (e) => {
         quantitySelect < 1 || quantitySelect > 100 || quantitySelect == null) {
         alert("Sélectionnez une couleur et un nombre d'article entre 1 et 100")
     }
-    // On vérifie si l'objet n'est pas déja présent  afin d'incrémenter uniquement la quantité de produit
+    // On vérifie si l'objet est deja présent afin d'incrémenter uniquement la quantité de produit si c'est le cas
     else if (localStorage.getItem(canapeData.name + " " + colorProductSelect)) {
         // Je récupère l'objet du localStorage
         let productAlreadyIn = JSON.parse(localStorage.getItem(canapeData.name + " " + colorProductSelect))

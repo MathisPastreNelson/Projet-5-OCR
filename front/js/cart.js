@@ -15,11 +15,12 @@ let retrieveAllStorage = async () => {
         if (keys[i][0] === "K") {
             let parseAllProduct = JSON.parse(localStorage.getItem(keys[i]))
             productInBasket.push(parseAllProduct)
-            // je supprime les clés qui ne correspondent pas
-        } else {
-            console.log("Suppression de la clé non correspondante du localStorage")
-            localStorage.removeItem(keys[i])
         }
+        // je supprime les clés qui ne correspondent pas
+        // else {
+        //     console.log("Suppression de la clé non correspondante du localStorage")
+        //     localStorage.removeItem(keys[i])
+        // }
     }
 };
 
@@ -35,7 +36,6 @@ let productFetch = async () => {
 // Fonction qui regroupe les datas situées dans l'API relatif aux produits du panier
 let getEveryProductInfo = async () => {
     await productFetch()
-
     for (let i = 0; i < productInBasket.length; i++) {
         everyProductInfo.push({
             ...productInBasket[i],
@@ -233,12 +233,21 @@ let commandAction = async () => {
             contact.email = email.value
 
             // La variable du fetchPost
-            let sendOrder = { products, contact }
-            console.table(sendOrder)
-            console.log(sendOrder.products)
-            console.log(sendOrder.contact)
+            let sendOrder = { contact, products }
+            // console.log(sendOrder)
+            // console.table(sendOrder.contact)
+            // console.table(sendOrder.products)
 
             //Je vais pouvoir FETCH POST ICI je crois 
+            fetch(`http://localhost:3000/api/products/order`, {
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(sendOrder),
+            }).then((res) => res.json()).then((promise) => {
+                let serverStock = promise
+                console.table(serverStock)
+                window.location.href = 'confirmation.html?orderId=' + serverStock.orderId;
+            })
 
         } else {
             alert("Tout les champs du formulaire doivent être valides, un produit au minimum est nécessaire dans le panier.")

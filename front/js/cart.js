@@ -16,7 +16,7 @@ let retrieveAllStorage = async () => {
             let parseAllProduct = JSON.parse(localStorage.getItem(keys[i]))
             productInBasket.push(parseAllProduct)
         }
-        // je supprime les clés qui ne correspondent pas
+        // je supprime les clés qui ne correspondent pas (non obligatoire)
         // else {
         //     console.log("Suppression de la clé non correspondante du localStorage")
         //     localStorage.removeItem(keys[i])

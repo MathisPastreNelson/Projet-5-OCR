@@ -137,7 +137,7 @@ let deleteProduct = async () => {
 
 // La variable qui va récupérer  les données de l'utilisateur
 let contact = {};
-// La variable qui va récupérer la commande ID
+// La variable qui va récupérer les products ID
 let products = [];
 // Regex 
 const regexForName = /^[a-zA-ZÀ-ú\-\s]{3,20}$/;
@@ -232,21 +232,22 @@ let commandAction = async () => {
             contact.city = city.value
             contact.email = email.value
 
-            // La variable du fetchPost
+            // La variable du fetchPost (objet contact + array products ID)
             let sendOrder = { contact, products }
-            // console.log(sendOrder)
+            console.log(sendOrder)
             // console.table(sendOrder.contact)
             // console.table(sendOrder.products)
 
-            //Je vais pouvoir FETCH POST ICI je crois 
+            // Fetch POST une fois que toutes les conditions valides
             fetch(`http://localhost:3000/api/products/order`, {
                 method: 'POST',
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(sendOrder),
             }).then((res) => res.json()).then((promise) => {
                 let serverStock = promise
-                console.table(serverStock)
-                window.location.href = 'confirmation.html?orderId=' + serverStock.orderId;
+                // console.table(serverStock)
+                // Redirection sur la page order une fois que tout est OK
+                // window.location.href = 'confirmation.html?orderId=' + serverStock.orderId;
             })
 
         } else {
@@ -256,21 +257,4 @@ let commandAction = async () => {
 }
 
 commandAction()
-//Apprendre  la méthode post ET FINI
-//Je vais poster les données utilisateur dans l'API à la validation du formulaire
-
-//Voici le modèle du POST
-/**
- *
- * Expects request to contain:
- * contact: {
- *   firstName: string,
- *   lastName: string,
- *   address: string,
- *   city: string,
- *   email: string
- * }
- * products: [string] <-- array of product _id
- *
- */
 

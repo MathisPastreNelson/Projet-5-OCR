@@ -247,7 +247,7 @@ let commandAction = async () => {
                 let serverStock = promise
                 // console.table(serverStock)
                 // Redirection sur la page order une fois que tout est OK
-                // window.location.href = 'confirmation.html?orderId=' + serverStock.orderId;
+                window.location.href = 'confirmation.html?orderId=' + serverStock.orderId;
             })
 
         } else {

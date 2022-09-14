@@ -3,7 +3,7 @@ let canapeData = [];
 
 // Fonction de Récupération de l'API grâce a la méthode "FETCH"
 let fetchCanap = async () => {
-    await fetch("http://localhost:3000/api/products")
+    await fetch("https://mathispastrenelson.github.io/Projet-5-OCR:3000/api/products")
         // La réponse converti en .Json
         .then((res) => res.json())
         // Ajout de la fonction dans canapeData[]

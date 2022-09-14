@@ -41,7 +41,7 @@ let productDisplay = async () => {
     let selectColor = document.getElementById('colors');
     // Fonction forEach pour afficher l'ensemble des colors
     canapeData.colors.forEach((color) => {
-        // Ajout d'une nouvelle option pour chaques colors
+        // Ajout d'une nouvelle option pour chaque colors
         let colorOption = document.createElement("option")
         colorOption.innerHTML = `${color}`
         colorOption.value = `${color}`

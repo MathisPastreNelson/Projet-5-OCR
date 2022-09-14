@@ -251,7 +251,7 @@ let commandAction = async () => {
             })
 
         } else {
-            alert("Tout les champs du formulaire doivent être valides, un produit au minimum est nécessaire dans le panier.")
+            alert("Tous les champs du formulaire doivent être valides, un produit au minimum est nécessaire dans le panier.")
         }
     })
 }

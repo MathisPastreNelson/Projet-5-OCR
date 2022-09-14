@@ -11,6 +11,7 @@ let productFetch = async () => {
         .then((res) => res.json())
         // Ajout du résultat dans canapeData[]
         .then((res) => canapeData = res)
+    console.log(canapeData)
 };
 
 // Fonction qui affiche les données sur les différents éléments HTML
